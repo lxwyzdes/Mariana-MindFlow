@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hy.qql.demo.common.Result;
 import com.hy.qql.demo.entity.*;
 import com.hy.qql.demo.mapper.*;
+import com.hy.qql.demo.utils.OpenAIAPI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -226,4 +227,12 @@ public class FlowInstanceController {
         flowInstanceMapper.updateById(flowInstance);
         return Result.success(flowInstance);
     }
+
+    @RequestMapping("/getGPT")
+    public Result getGPT(@RequestBody String prompt){
+        String chat = OpenAIAPI.chat(prompt);
+        return Result.success(chat);
+    }
+
+
 }
