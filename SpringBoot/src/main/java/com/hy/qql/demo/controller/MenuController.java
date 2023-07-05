@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hy.qql.demo.service.IMenuService;
@@ -17,14 +16,7 @@ import com.hy.qql.demo.entity.Menu;
 
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * <p>
- * 前端控制器
- * </p>
- *
- * @author qql
- * @since 2022-03-30
- */
+
 @RestController
 @RequestMapping("/menu")
 public class MenuController {

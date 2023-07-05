@@ -6,14 +6,7 @@ import com.hy.qql.demo.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import com.hy.qql.demo.controller.DTO.UserPasswordDTO;
-/**
- * <p>
- *  服务类
- * </p>
- *
- * @author qql
- * @since 2022-03-27
- */
+
 public interface IUserService extends IService<User> {
 
     UserDTO login(UserDTO userDTO);

@@ -15,14 +15,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author qql
- * @since 2022-03-27
- */
+
 @Getter
 @Setter
 @TableName("sys_user")
@@ -63,10 +56,6 @@ public class User implements Serializable {
       @ApiModelProperty("角色")
       private String role;
 
-      @TableField(exist = false)
-      private List<Course> courses;
 
-     @TableField(exist = false)
-     private List<Course> stuCourses;
 
 }

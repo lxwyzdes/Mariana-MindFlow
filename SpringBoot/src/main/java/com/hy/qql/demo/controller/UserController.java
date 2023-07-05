@@ -30,14 +30,7 @@ import java.io.InputStream;
 
 import cn.hutool.poi.excel.ExcelReader;
 
-/**
- * <p>
- * 前端控制器
- * </p>
- *
- * @author qql
- * @since 2022-03-27
- */
+
 @RestController
 @RequestMapping("/user")
 public class UserController {

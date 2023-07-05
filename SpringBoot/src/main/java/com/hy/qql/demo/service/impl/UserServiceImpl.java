@@ -24,14 +24,6 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * <p>
- *  服务实现类
- * </p>
- *
- * @author qql
- * @since 2022-03-27
- */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
     private static final Log LOG = Log.get();

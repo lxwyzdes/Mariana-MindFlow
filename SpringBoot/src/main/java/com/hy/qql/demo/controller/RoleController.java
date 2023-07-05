@@ -13,14 +13,7 @@ import com.hy.qql.demo.entity.Role;
 
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * <p>
- * 前端控制器
- * </p>
- *
- * @author qql
- * @since 2022-03-30
- */
+
 @RestController
 @RequestMapping("/role")
 public class RoleController {

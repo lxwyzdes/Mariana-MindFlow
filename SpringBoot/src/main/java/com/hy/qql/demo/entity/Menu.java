@@ -12,14 +12,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author qql
- * @since 2022-03-30
- */
+
 @Getter
 @Setter
   @TableName("sys_menu")
