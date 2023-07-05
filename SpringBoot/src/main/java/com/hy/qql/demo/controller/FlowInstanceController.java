@@ -178,4 +178,52 @@ public class FlowInstanceController {
         flowInstanceMapper.updateById(flowInstance);
         return Result.success(flowInstance);
     }
+
+    @RequestMapping("/submitText")
+    public Result submitText(@RequestBody TextNodeInstance textNodeInstance){
+        textNodeInstance.setTextNodeInstanceId(null);
+        FlowInstance flowInstance = flowInstanceMapper.selectById(textNodeInstance.getFlowInstanceId());
+        textNodeInstance.setSequence(flowInstance.getNextNodeSequence());
+        textNodeInstanceMapper.insert(textNodeInstance);
+        flowInstance.setUpdateTime(new Date().getTime());
+        if(flowInstance.getNextNodeSequence()>=flowInstance.getFlowLength()){
+            flowInstance.setState(2);
+        }else {
+            QueryWrapper<Line> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("from",flowInstance.getNextNodeId()).eq("flow_model_id",flowInstance.getFlowModelId());
+            List<Line> lineList = lineMapper.selectList(queryWrapper);
+            for (Line line:lineList){
+                Node node = nodeMapper.selectById(line.getTo());
+                flowInstance.setNextNodeId(node.getNodeId());
+                flowInstance.setNextNodeExecutorId(node.getExecutorId());
+            }
+            flowInstance.setNextNodeSequence(flowInstance.getNextNodeSequence()+1);
+        }
+        flowInstanceMapper.updateById(flowInstance);
+        return Result.success(flowInstance);
+    }
+
+    @RequestMapping("/submitImage")
+    public Result submitImage(@RequestBody ImageNodeInstance imageNodeInstance){
+        imageNodeInstance.setImageNodeInstanceId(null);
+        FlowInstance flowInstance = flowInstanceMapper.selectById(imageNodeInstance.getFlowInstanceId());
+        imageNodeInstance.setSequence(flowInstance.getNextNodeSequence());
+        imageNodeInstanceMapper.insert(imageNodeInstance);
+        flowInstance.setUpdateTime(new Date().getTime());
+        if(flowInstance.getNextNodeSequence()>=flowInstance.getFlowLength()){
+            flowInstance.setState(2);
+        }else {
+            QueryWrapper<Line> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("from",flowInstance.getNextNodeId()).eq("flow_model_id",flowInstance.getFlowModelId());
+            List<Line> lineList = lineMapper.selectList(queryWrapper);
+            for (Line line:lineList){
+                Node node = nodeMapper.selectById(line.getTo());
+                flowInstance.setNextNodeId(node.getNodeId());
+                flowInstance.setNextNodeExecutorId(node.getExecutorId());
+            }
+            flowInstance.setNextNodeSequence(flowInstance.getNextNodeSequence()+1);
+        }
+        flowInstanceMapper.updateById(flowInstance);
+        return Result.success(flowInstance);
+    }
 }
