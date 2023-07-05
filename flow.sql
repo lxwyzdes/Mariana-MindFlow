@@ -10,24 +10,10 @@ Target Server Type    : MYSQL
 Target Server Version : 80027
 File Encoding         : 65001
 
-Date: 2023-07-05 15:23:54
+Date: 2023-07-05 17:07:25
 */
 
 SET FOREIGN_KEY_CHECKS=0;
-
--- ----------------------------
--- Table structure for course
--- ----------------------------
-DROP TABLE IF EXISTS `course`;
-CREATE TABLE `course` (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '课程名称',
-  `score` int DEFAULT NULL COMMENT '学分',
-  `times` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '上课时间',
-  `state` tinyint(1) DEFAULT NULL COMMENT '是否开课',
-  `teacher_id` int DEFAULT NULL COMMENT '授课老师id',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for flow_instance
@@ -133,31 +119,6 @@ CREATE TABLE `review_node_instance` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
--- Table structure for student_course
--- ----------------------------
-DROP TABLE IF EXISTS `student_course`;
-CREATE TABLE `student_course` (
-  `student_id` int NOT NULL,
-  `course_id` int NOT NULL,
-  PRIMARY KEY (`student_id`,`course_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
-
--- ----------------------------
--- Table structure for sys_anlian
--- ----------------------------
-DROP TABLE IF EXISTS `sys_anlian`;
-CREATE TABLE `sys_anlian` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `src` varchar(255) DEFAULT NULL,
-  `title` varchar(255) DEFAULT NULL,
-  `author` varchar(50) DEFAULT NULL,
-  `release_time` varchar(50) DEFAULT NULL,
-  `introduce` varchar(255) DEFAULT NULL,
-  `book_type` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
-
--- ----------------------------
 -- Table structure for sys_dict
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dict`;
@@ -166,32 +127,6 @@ CREATE TABLE `sys_dict` (
   `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '内容',
   `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '类型'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
-
--- ----------------------------
--- Table structure for sys_file
--- ----------------------------
-DROP TABLE IF EXISTS `sys_file`;
-CREATE TABLE `sys_file` (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '文件名称',
-  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '文件类型',
-  `size` bigint DEFAULT NULL COMMENT '文件大小(kb)',
-  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '下载链接',
-  `md5` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '文件md5',
-  `is_delete` tinyint(1) DEFAULT '0' COMMENT '是否删除',
-  `enable` tinyint(1) DEFAULT '1' COMMENT '是否禁用链接',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
-
--- ----------------------------
--- Table structure for sys_gong
--- ----------------------------
-DROP TABLE IF EXISTS `sys_gong`;
-CREATE TABLE `sys_gong` (
-  `gid` int NOT NULL AUTO_INCREMENT,
-  `gname` varchar(50) NOT NULL,
-  PRIMARY KEY (`gid`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -250,36 +185,6 @@ CREATE TABLE `sys_user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
--- Table structure for sys_xue
--- ----------------------------
-DROP TABLE IF EXISTS `sys_xue`;
-CREATE TABLE `sys_xue` (
-  `xid` int NOT NULL AUTO_INCREMENT,
-  `li` varchar(50) NOT NULL,
-  PRIMARY KEY (`xid`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
-
--- ----------------------------
--- Table structure for sys_yuan
--- ----------------------------
-DROP TABLE IF EXISTS `sys_yuan`;
-CREATE TABLE `sys_yuan` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `yname` varchar(50) NOT NULL,
-  `age` int DEFAULT NULL,
-  `gender` char(1) DEFAULT NULL,
-  `address` varchar(50) DEFAULT NULL,
-  `state` tinyint(1) DEFAULT NULL COMMENT '是否开课',
-  `xid` int DEFAULT NULL,
-  `gid` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_sys_yuan_sys_gong` (`gid`),
-  KEY `fk_sys_yuan_sys_xue` (`xid`),
-  CONSTRAINT `sys_yuan_ibfk_1` FOREIGN KEY (`gid`) REFERENCES `sys_gong` (`gid`),
-  CONSTRAINT `sys_yuan_ibfk_2` FOREIGN KEY (`xid`) REFERENCES `sys_xue` (`xid`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
-
--- ----------------------------
 -- Table structure for text_node_instance
 -- ----------------------------
 DROP TABLE IF EXISTS `text_node_instance`;
@@ -293,21 +198,6 @@ CREATE TABLE `text_node_instance` (
   `resault` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`text_node_instance_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-
--- ----------------------------
--- Table structure for t_comment
--- ----------------------------
-DROP TABLE IF EXISTS `t_comment`;
-CREATE TABLE `t_comment` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '内容',
-  `user_id` int DEFAULT NULL COMMENT '评论人id',
-  `time` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '评论时间',
-  `pid` int DEFAULT NULL COMMENT '父id',
-  `origin_id` int DEFAULT NULL COMMENT '最上级评论id',
-  `article_id` int DEFAULT NULL COMMENT '关联文章的id',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for user
