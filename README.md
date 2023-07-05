@@ -4,6 +4,13 @@
 
 Mariana MindFlow,是一款集成了多种AI工具，用户操控创建个性化思维流场景的节点工作流程模型平台，为用户提供可行的高效工作流程设计和自动化处理。它支持多种功能节点，包括文本生成、图像生成、语音生成、语音生成，以及用于流程控制的审计节点。软件还具有撤销、保存和查看节点的功能，让用户轻松调整流程。除了现有的工具外，未来还将增加更多AI工具和多用户协作，满足用户甚至是大型企业生成多样化内容的需求。
 
+#### 技术概念-Mariana MindFlow
+
+必看！！！讲述Mariana MindFlow概念从0-1的核心链路，以及可实现效果演示。现阶段利用Mariana MindFlow技术概念已完成以下内容：
+1. 视觉小说类Avg游戏从0-1创作（Demo完成）
+2. 同风格Tarot Cards全套卡牌（78张）
+3. 儿童插画绘本（2-8岁）140本
+
 #### 核心功能
 
 ##### 1、思维流
@@ -29,3 +36,14 @@ Mariana MindFlow 支持查看工作任务功能。用户可以查看待开始、
 ##### 6、多样化AI工具
 
 Mariana MindFlow目前已集成了ChatGpt、midjounery、stable diffusion等工具，并会在未来加入更多AI工具，以提供更丰富多样的生成内容选项。
+
+#### AvgDemo0705_Win64
+借助Mariana MindFlow创作的视觉小说类Avg游戏Demo（Unity开发），详情请查看文件内的README。
+
+#### SpringBoot
+
+#### 演示录屏
+借助Mariana MindFlow创作的视觉小说类Avg游戏Demo录屏（时长1分钟），录屏中人物角色，背景，文本，语音等均为AIGC产物。
+
+#### flow.sql
+Mariana MindFlow数据库
