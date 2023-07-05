@@ -5,6 +5,7 @@ import com.hy.qql.demo.common.Result;
 import com.hy.qql.demo.entity.*;
 import com.hy.qql.demo.mapper.*;
 import com.hy.qql.demo.utils.OpenAIAPI;
+import com.hy.qql.demo.utils.StableDiffusion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -229,10 +230,18 @@ public class FlowInstanceController {
     }
 
     @RequestMapping("/getGPT")
-    public Result getGPT(@RequestBody String prompt){
-        String chat = OpenAIAPI.chat(prompt);
+    public Result getGPT(@RequestBody TextNodeInstance textNodeInstance){
+        String chat = OpenAIAPI.chat(textNodeInstance.getPrompt());
         return Result.success(chat);
     }
 
+    @RequestMapping("/getSD")
+    public Result getSD(@RequestBody ImageNodeInstance imageNodeInstance){
+        String body="{ \"prompt\": \""+imageNodeInstance.getPositivePrompt()+"\" ," +
+                "\"negative_prompt\":\""+imageNodeInstance.getNegativePrompt()+"\"," +
+                "\"steps\": \""+imageNodeInstance.getStep()+"\" }";
+        String imageEncodeByBase64 = StableDiffusion.sendPost("http://127.0.0.1:7860/sdapi/v1/txt2img",body);
+        return Result.success(imageEncodeByBase64);
+    }
 
 }

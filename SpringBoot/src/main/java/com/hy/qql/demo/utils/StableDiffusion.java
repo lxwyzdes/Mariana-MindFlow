@@ -6,8 +6,6 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
-import com.google.gson.Gson;
 import lombok.experimental.UtilityClass;
 
 import java.io.BufferedReader;
@@ -23,50 +21,7 @@ import java.util.Map;
 
 
 @UtilityClass
-public class OpenAIAPI {
-    /**
-     * 聊天端点
-     */
-    String chatEndpoint = "https://api.openai.com/v1/chat/completions";
-    /**
-     * api密匙
-     */
-    String apiKey = "Bearer OpenAIKey";
-
-    /**
-     * 发送消息
-     *
-     * @param txt 内容
-     * @return {@link String}
-     */
-    public String chat(String txt) {
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("model", "gpt-3.5-turbo");
-        List<Map<String, String>> dataList = new ArrayList<>();
-        dataList.add(new HashMap<String, String>(){{
-            put("role", "user");
-            put("content", txt);
-        }});
-        paramMap.put("messages", dataList);
-        JSONObject message = null;
-        try {
-            String body = HttpRequest.post(chatEndpoint)
-                    .header("Authorization", apiKey)
-                    .header("Content-Type", "application/json")
-                    .body(JSONUtil.toJsonStr(paramMap))
-                    .execute()
-                    .body();
-            JSONObject jsonObject = JSONUtil.parseObj(body);
-            JSONArray choices = jsonObject.getJSONArray("choices");
-            JSONObject result = choices.get(0, JSONObject.class, Boolean.TRUE);
-            message = result.getJSONObject("message");
-        } catch (HttpException e) {
-            return "出现了异常";
-        } catch (ConvertException e) {
-            return "出现了异常";
-        }
-        return message.getStr("content");
-    }
+public class StableDiffusion {
 
     /**
      * 向指定 URL 发送POST方法的请求
@@ -82,9 +37,6 @@ public class OpenAIAPI {
             URL realUrl = new URL(url);
             // 打开和URL之间的连接
             URLConnection conn = realUrl.openConnection();
-            // 设置通用的请求属性
-            conn.setRequestProperty("Authorization", "Bearer OpenAIKey");
-            conn.setRequestProperty("Content-Type", "application/json");
             // 发送POST请求必须设置如下两行
             conn.setDoOutput(true);
             conn.setDoInput(true);
