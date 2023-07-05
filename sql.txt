@@ -1,0 +1,342 @@
+CREATE DATABASE qql;
+USE qql;
+
+SELECT * FROM sys_user
+        LEFT JOIN course
+        ON sys_user.id = course.teacher_id
+        
+        SELECT sys_user.*,course.*,c.*,student_course.* FROM sys_user
+        LEFT JOIN student_course
+        ON sys_user.id = student_course.student_id
+        LEFT JOIN course
+        ON sys_user.id = course.teacher_id
+        LEFT JOIN course c
+        ON student_course.course_id = c.id
+        
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : localhost_3306
+ Source Server Type    : MySQL
+ Source Server Version : 50721
+ Source Host           : localhost:3306
+ Source Schema         : qing
+
+ Target Server Type    : MySQL
+ Target Server Version : 50721
+ File Encoding         : 65001
+
+ Date: 22/03/2022 21:57:43
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+ 
+-- ----------------------------
+-- Table structure for article
+-- ----------------------------
+DROP TABLE IF EXISTS `article`;
+CREATE TABLE `article`  (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '标题',
+  `content` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '内容',
+  `user` VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '发布人',`sys_user`
+  `time` VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '发布时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = INNODB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of article
+-- ----------------------------
+INSERT INTO `article` VALUES (1, '青哥哥的文章标题', '# 我是青哥哥\n## 我是青哥哥2号\n\n::: hljs-center\n\n***++~~==我是那个哥哥==~~++***\n\n:::\n\n> 我是青哥哥的引用\n\n我是B站：程序员青戈\n\n[百度](https://www.baidu.com)\n\n```java\nclass Hello {\n  public static void main(String[] args) {\n    System.out.pringln(\"Hello 青哥哥\");\n  }\n}\n\n```\n\n![搜狗截图20220129174103.png](http://localhost:9090/file/8567a00d2bf740e0a63794baf600cec3.png)\n\n\n', '程序员青戈', '2022-03-22 19:22:58');
+INSERT INTO `article` VALUES (2, '青哥哥文章2号', '青哥哥文章2号\n\n青哥哥文章2号\n\n青哥哥文章2号\n\n![QQ图片20220307194920.png](http://localhost:9090/file/5e40a867acd74d1f90b0ac9a765823e5.png)', '程序员青戈', '2022-03-22 19:22:58');
+
+-- ----------------------------
+-- Table structure for course
+-- ----------------------------
+DROP TABLE IF EXISTS `course`;
+CREATE TABLE `course`  (
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `name` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '课程名称',
+  `score` INT(11) NULL DEFAULT NULL COMMENT '学分',
+  `times` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '上课时间',
+  `state` TINYINT(1) NULL DEFAULT NULL COMMENT '是否开课',
+  `teacher_id` INT(11) NULL DEFAULT NULL COMMENT '授课老师id',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = INNODB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of course
+-- ----------------------------
+INSERT INTO `course` VALUES (1, '大学物理', 10, '40', 0, 17);
+INSERT INTO `course` VALUES (2, '高等数学', 10, '45', NULL, 16);
+INSERT INTO `course` VALUES (3, '大学英语', 10, '30', NULL, 16);
+
+-- ----------------------------
+-- Table structure for student_course
+-- ----------------------------
+DROP TABLE IF EXISTS `student_course`;
+CREATE TABLE `student_course`  (
+  `student_id` INT(11) NOT NULL,
+  `course_id` INT(11) NOT NULL,
+  PRIMARY KEY (`student_id`, `course_id`) USING BTREE
+) ENGINE = INNODB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of student_course
+-- ----------------------------
+INSERT INTO `student_course` VALUES (28, 1);
+INSERT INTO `student_course` VALUES (28, 2);
+
+-- ----------------------------
+-- Table structure for sys_dict
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_dict`;
+CREATE TABLE `sys_dict`  (
+  `name` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '名称',
+  `value` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '内容',
+  `type` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '类型'
+) ENGINE = INNODB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_dict
+-- ----------------------------
+INSERT INTO `sys_dict` VALUES ('user', 'el-icon-user', 'icon');
+INSERT INTO `sys_dict` VALUES ('house', 'el-icon-house', 'icon');
+INSERT INTO `sys_dict` VALUES ('menu', 'el-icon-menu', 'icon');
+INSERT INTO `sys_dict` VALUES ('s-custom', 'el-icon-s-custom', 'icon');
+INSERT INTO `sys_dict` VALUES ('s-grid', 'el-icon-s-grid', 'icon');
+INSERT INTO `sys_dict` VALUES ('document', 'el-icon-document', 'icon');
+INSERT INTO `sys_dict` VALUES ('coffee', 'el-icon-coffee\r\n', 'icon');
+INSERT INTO `sys_dict` VALUES ('s-marketing', 'el-icon-s-marketing', 'icon');
+
+-- ----------------------------
+-- Table structure for sys_file
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_file`;
+CREATE TABLE `sys_file`  (
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `name` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '文件名称',
+  `type` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '文件类型',
+  `size` BIGINT(20) NULL DEFAULT NULL COMMENT '文件大小(kb)',
+  `url` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '下载链接',
+  `md5` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '文件md5',
+  `is_delete` TINYINT(1) NULL DEFAULT 0 COMMENT '是否删除',
+  `enable` TINYINT(1) NULL DEFAULT 1 COMMENT '是否禁用链接',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = INNODB AUTO_INCREMENT = 44 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_file
+-- ----------------------------
+INSERT INTO `sys_file` VALUES (35, '小聪明.jpg', 'jpg', 32, 'http://localhost:9090/file/1a6fd86d509b48638fb2a2d56722482e.jpg', 'cb887a9d64563352edce80cf50296cc5', 0, 1);
+INSERT INTO `sys_file` VALUES (36, '笨蛋.png', 'png', 445, 'http://localhost:9090/file/0d0e9f0472f34a4bb211029b8f589b34.png', '793fd534fa705475eb3358f68c87ec68', 0, 1);
+INSERT INTO `sys_file` VALUES (41, 'php.png', 'png', 56, 'http://localhost:9090/file/8ab7b9f9106e4d1cabf01559d8cc3297.png', '050df6119399582fda666834870608d7', 0, 1);
+INSERT INTO `sys_file` VALUES (42, '小可爱', 'png', 100, 'http://localhost:9090/file/8dd6162f1ff44a82b6fe5d165b3e5bf6.png', '0f1337b5c0ebf68f67718fcf42d1322f', 0, 1);
+
+-- ----------------------------
+-- Table structure for sys_menu
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_menu`;
+CREATE TABLE `sys_menu`  (
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `name` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '名称',
+  `path` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '路径',
+  `icon` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '图标',
+  `description` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '描述',
+  `pid` INT(11) NULL DEFAULT NULL COMMENT '父级id',
+  `page_path` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '页面路径',
+  `sort_num` INT(11) NULL DEFAULT NULL COMMENT '排序',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = INNODB AUTO_INCREMENT = 42 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_menu
+-- ----------------------------
+INSERT INTO `sys_menu` VALUES (2, '激励', '/dashbord', 'el-icon-s-marketing', '11', NULL, 'Dashbord', 100);
+INSERT INTO `sys_menu` VALUES (4, '系统管理', NULL, 'el-icon-s-grid', NULL, NULL, NULL, 300);
+INSERT INTO `sys_menu` VALUES (5, '用户管理', '/user', 'el-icon-user', NULL, 4, 'User', 301);
+INSERT INTO `sys_menu` VALUES (6, '角色管理', '/role', 'el-icon-s-custom', NULL, 4, 'Role', 302);
+INSERT INTO `sys_menu` VALUES (7, '菜单管理', '/menu', 'el-icon-menu', NULL, 4, 'Menu', 303);
+INSERT INTO `sys_menu` VALUES (8, '文件管理', '/file', 'el-icon-document', NULL, 4, 'File', 304);
+INSERT INTO `sys_menu` VALUES (9, '首页管理', '/donate', 'el-icon-coffee\r\n', NULL, NULL, 'Donate', 200);
+INSERT INTO `sys_menu` VALUES (10, '主页', '/home', 'el-icon-house', NULL, NULL, 'Home', 0);
+INSERT INTO `sys_menu` VALUES (39, '课程管理', '/course', 'el-icon-menu', NULL, NULL, 'Course', 201);
+INSERT INTO `sys_menu` VALUES (40, '高德地图', '/map', 'el-icon-house', NULL, NULL, 'Map', 999);
+INSERT INTO sys_menu VALUES(41,"面试管理",'/main','el-icon-picture-outline-round',NULL,NULL,'Main',1001);
+-- ----------------------------
+-- Table structure for sys_role
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_role`;
+CREATE TABLE `sys_role`  (
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `name` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '名称',
+  `description` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '描述',
+  `flag` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '唯一标识',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = INNODB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_role
+-- ----------------------------
+INSERT INTO `sys_role` VALUES (1, '管理员', '管理员', 'ROLE_ADMIN');
+INSERT INTO `sys_role` VALUES (2, '学生', '学生', 'ROLE_STUDENT');
+INSERT INTO `sys_role` VALUES (3, '老师', '老师', 'ROLE_TEACHER');
+
+-- ----------------------------
+-- Table structure for sys_role_menu
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_role_menu`;
+CREATE TABLE `sys_role_menu`  (
+  `role_id` INT(11) NOT NULL COMMENT '角色id',
+  `menu_id` INT(11) NOT NULL COMMENT '菜单id',
+  PRIMARY KEY (`role_id`, `menu_id`) USING BTREE
+) ENGINE = INNODB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '角色菜单关系表' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_role_menu
+-- ----------------------------
+INSERT INTO `sys_role_menu` VALUES (1, 2);
+INSERT INTO `sys_role_menu` VALUES (1, 4);
+INSERT INTO `sys_role_menu` VALUES (1, 5);
+INSERT INTO `sys_role_menu` VALUES (1, 6);
+INSERT INTO `sys_role_menu` VALUES (1, 7);
+INSERT INTO `sys_role_menu` VALUES (1, 8);
+INSERT INTO `sys_role_menu` VALUES (1, 9);
+INSERT INTO `sys_role_menu` VALUES (1, 10);
+INSERT INTO `sys_role_menu` VALUES (1, 39);
+INSERT INTO `sys_role_menu` VALUES (1, 40);
+INSERT INTO `sys_role_menu` VALUES (1, 41);
+INSERT INTO `sys_role_menu` VALUES (3, 2);
+INSERT INTO `sys_role_menu` VALUES (3, 10);
+INSERT INTO `sys_role_menu` VALUES (3, 39);
+
+-- ----------------------------
+-- Table structure for sys_user
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user`;
+CREATE TABLE `sys_user`  (
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `username` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '用户名',
+  `password` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '密码',
+  `nickname` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '昵称',
+  `email` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '邮箱',
+  `phone` VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '电话',
+  `address` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '地址',
+  `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `avatar_url` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '头像',
+  `role` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '角色',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = INNODB AUTO_INCREMENT = 30 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_user
+-- ----------------------------
+INSERT INTO `sys_user` VALUES (1, 'admin', 'admin', '张三', 'admin@qq.com', '13988997788', '湖南梦游地区', '2022-01-22 21:10:27', 'http://localhost:9090/file/8686de56475b432284aec965fc64f853.png', 'ROLE_ADMIN');
+INSERT INTO `sys_user` VALUES (16, '222', '123', '李四', '1389@qq.com', '12312312', '湖南地狱梦想', '2022-02-26 22:10:14','https://img2.baidu.com/it/u=2354211131,1926992901&fm=253&fmt=auto&app=138&f=JPEG?w=640&h=458', 'ROLE_TEACHER');
+INSERT INTO `sys_user` VALUES (17, '333', '123', '王五', '333@qq.com', '123147987', '北京一环', '2022-02-26 22:10:18', 'https://img2.baidu.com/it/u=2405596874,2530509328&fm=253&fmt=auto&app=138&f=JPEG?w=400&h=300', 'ROLE_TEACHER');
+INSERT INTO `sys_user` VALUES (18, 'nzz', '123', '哪吒', '123@qq.com', '12312333', '火焰山', '2022-03-29 16:59:44', 'https://img1.baidu.com/it/u=3085166806,3823761585&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=452', 'ROLE_STUDENT');
+INSERT INTO `sys_user` VALUES (19, 'yss', '123', '亚瑟', '3', '3', '3', '2022-04-29 16:59:44', '', 'ROLE_STUDENT');
+INSERT INTO `sys_user` VALUES (20, 'lxx', '123', '李信', '2', '2', '2', '2022-05-29 17:12:04', '2', 'ROLE_STUDENT');
+INSERT INTO `sys_user` VALUES (25, 'sir', '123', '安琪拉', NULL, NULL, NULL, '2022-06-08 17:00:47', NULL, 'ROLE_STUDENT');
+INSERT INTO `sys_user` VALUES (26, 'err', NULL, '妲己', '11', '1', '1', '2022-07-08 17:20:01', NULL, 'ROLE_STUDENT');
+INSERT INTO `sys_user`sys_role`` VALUES (28, 'ddd', '123', 'ddd', '', '',`sys_user` '', '2022-11-09 10:41:07', 'http://localhost:9090/file/7de0e50f915547539db12023cf997276.jpg', 'ROLE_STUDENT');
+INSERT INTO `sys_user` VALUES (29, 'ffff', '123', NULL, NULL, NULL, NULL, '2022-12-10 11:53:31', NULL, 'ROLE_STUDENT');
+
+-- ----------------------------
+-- Table structure for t_comment
+-- ----------------------------
+DROP TABLE IF EXISTS `t_comment`;
+CREATE TABLE `t_comment`  (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `content` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '内容',
+  `user_id` INT(11) NULL DEFAULT NULL COMMENT '评论人id',
+  `time` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '评论时间',
+  `pid` INT(11) NULL DEFAULT NULL COMMENT '父id',
+  `origin_id` INT(11) NULL DEFAULT NULL COMMENT '最上级评论id',
+  `article_id` INT(11) NULL DEFAULT NULL COMMENT '关联文章的id',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = INNODB AUTO_INCREMENT = 22 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of t_comment
+-- ----------------------------
+INSERT INTO `t_comment` VALUES (1, '测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试', 1, '2022-03-22 20:00:00', NULL, NULL, 1);
+INSERT INTO `t_comment` VALUES (2, '123', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_comment` VALUES (5, '回复内容', 1, '2022-03-22 21:01:00', NULL, NULL, 1);
+INSERT INTO `t_comment` VALUES (6, '4444', 1, '2022-03-22 21:03:15', 4, 4, 1);
+INSERT INTO `t_comment` VALUES (7, '5555', 1, '2022-03-22 21:04:11', 4, 4, 1);
+INSERT INTO `t_comment` VALUES (8, '444444', 1, '2022-03-22 21:29:55', 7, 7, 1);
+INSERT INTO `t_comment` VALUES (9, '5555', 1, '2022-03-22 21:30:04', 7, 7, 1);
+INSERT INTO `t_comment` VALUES (10, '666', 1, '2022-03-22 21:34:05', 7, 4, 1);
+INSERT INTO `t_comment` VALUES (11, '甄姬真的好大好大！！', 16, '2022-03-22 21:38:26', 10, 4, 1);
+INSERT INTO `t_comment` VALUES (13, '哈哈哈哈，我是ddd', 28, '2022-03-22 21:46:01', 12, 12, 1);
+INSERT INTO `t_comment` VALUES (14, '我是李信，我很萌', 20, '2022-03-22 21:46:48', 13, 12, 1);
+INSERT INTO `t_comment` VALUES (15, '我在回复ddd', 20, '2022-03-22 21:47:03', 13, 12, 1);
+INSERT INTO `t_comment` VALUES (16, '我是李信', 20, '2022-03-22 21:48:19', 4, 4, 1);
+INSERT INTO `t_comment` VALUES (17, '33333', 20, '2022-03-22 21:48:42', 5, 5, 1);
+INSERT INTO `t_comment` VALUES (19, '我是李信嗯嗯嗯', 20, '2022-03-22 21:49:21', 1, 1, 1);
+INSERT INTO `t_comment` VALUES (21, '哈哈哈 我是ddd', 28, '2022-03-22 21:50:04', 20, 1, 1);
+
+CREATE TABLE sys_anlian(
+   id INT PRIMARY KEY AUTO_INCREMENT,
+   src VARCHAR(255),
+   title VARCHAR(255),
+   author VARCHAR(50),
+   release_time VARCHAR(50),
+   introduce VARCHAR(255),
+   book_type VARCHAR(50)
+)
+INSERT INTO sys_anlian VALUE(NULL,"https://img1.baidu.com/it/u=3690405979,1658731319&fm=253&fmt=auto&app=138&f=JPEG?w=819&h=423","PHP","张三","2022-5-7","PHP是?种易于学习和使?的服务器端脚本语?。只需要很少的编程知识你就能使?PHP建??个真正交互的WEB站点。欢迎?家阅读！","编程");
+INSERT INTO sys_anlian VALUE(NULL,"https://img0.baidu.com/it/u=1693274640,2092314605&fm=253&fmt=auto&app=138&f=GIF?w=500&h=310","JAVA","旺旺","2022-5-7"，"教育厅发的","编程");
+INSERT INTO sys_anlian VALUE(NULL,"https://img2.baidu.com/it/u=3995721299,3945742051&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=281","PYTHON","李总","2022-5-7","Python解释器易于扩展，可以使用C语言或C++（或者其他可以通过C调用的语言）扩展新的功能和数据类型。 [4]  Python 也可用于可定制化软件中的扩展程序语言。Python丰富的标准库，提供了适用于各个主要系统平台的源码或机器码","编程");
+INSERT INTO sys_anlian VALUE(NULL,"https://img0.baidu.com/it/u=642388306,1845997403&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=368","Vue","法人","2022-5-7","Vue.js是用于构建交互式的Web界面的库,它提供了 MVVM数据绑定和一个可组合的组件系统,具有简单、灵活的API。从技术上讲，Vue.js集中在MVVM模式上的视图模型层,并通过双向数据绑定连接视图和模型","编程");
+INSERT INTO sys_anlian VALUE(NULL,"https://img0.baidu.com/it/u=3654026550,3264153565&fm=253&fmt=auto&app=138&f=JPEG?w=560&h=310","React","凤凰","2022-5-7","React是用于构建用户界面的JavaScript库","编程");
+INSERT INTO sys_anlian VALUE(NULL,"https://img1.baidu.com/it/u=990038585,3984304090&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=501","Spring","格式","2022-5-7","Spring属于开源框架，Spring是于2003年流行起来的一个轻量级的Java开发基础框架，它是为了解决企业应用开发的复杂性而提供的解决方案","编程");
+INSERT INTO sys_anlian VALUE(NULL,"https://img0.baidu.com/it/u=536714826,1395654827&fm=253&fmt=auto&app=138&f=PNG?w=667&h=500","SpringMvc","突然","2022-5-7","我们可以看到，在 Spring 的基本架构中，红色圈起来的 Spring Web MVC ，也就是本系列的主角 SpringMVC，它是属于Spring基本架构里面的一个组成部分，属于SpringFrameWork的后续产品，已经融合在Spring Web Flow里面，所以我们在后期和 Spring 进行整合的时候，几乎不需要别的什么配置","编程");
+INSERT INTO sys_anlian VALUE(NULL,"https://img0.baidu.com/it/u=2698410332,2050932400&fm=253&fmt=auto&app=138&f=PNG?w=774&h=364","SpringBoot","感到","2022-5-7","SpringBoot是一个全新的框架，其设计目的是用来简化spring应用初始搭建以及开发过程。","编程");
+INSERT INTO sys_anlian VALUE(NULL,"https://img1.baidu.com/it/u=1412260604,1880570622&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500","JAVA","小覃","2022-5-7","简单地说，Java 是由 Sun Microsystems 公司于 1995 年推出的一门面向对象程序设计语言。","编程");
+
+CREATE TABLE sys_xue(
+  xid INT PRIMARY KEY AUTO_INCREMENT,
+  li VARCHAR(50)NOT NULL
+)
+INSERT INTO sys_xue VALUE(NULL,'大专');
+INSERT INTO sys_xue VALUE(NULL,'本科');
+INSERT INTO sys_xue VALUE(NULL,'研究生');
+INSERT INTO sys_xue VALUE(NULL,'硕士');
+
+CREATE TABLE sys_gong(
+  gid INT PRIMARY KEY AUTO_INCREMENT,
+  gname VARCHAR(50)NOT NULL
+)
+INSERT INTO sys_gong VALUE(NULL,"字节跳动");
+INSERT INTO sys_gong VALUE(NULL,"阿里巴巴");
+INSERT INTO sys_gong VALUE(NULL,"腾讯");
+INSERT INTO sys_gong VALUE(NULL,"华为");
+
+CREATE TABLE sys_yuan(
+   id INT PRIMARY KEY AUTO_INCREMENT,
+   yname VARCHAR(50)NOT NULL,
+   age INT,
+   gender CHAR(1),
+   address VARCHAR(50),`qql`
+   state TINYINT(1) NULL DEFAULT NULL COMMENT '是否开课',
+   xid INT,
+   gid INT,
+   CONSTRAINT fk_sys_yuan_sys_gong FOREIGN KEY(gid) REFERENCES sys_gong(gid),
+   CONSTRAINT fk_sys_yuan_sys_xue FOREIGN KEY(xid) REFERENCES sys_xue(xid)
+)
+INSERT INTO sys_yuan VALUE(NULL,"张三",18,1,"湖南省长沙市",1,1,1);
+INSERT INTO sys_yuan VALUE(NULL,"萌萌",38,2,"湖南省常德市",0,2,2);
+INSERT INTO sys_yuan VALUE(NULL,"李四",28,1,"湖南省永州市",1,3,3);
+INSERT INTO sys_yuan VALUE(NULL,"小花",21,2,"湖南省张家界市",0,4,4);
+
+SELECT * FROM sys_yuan s LEFT JOIN sys_gong g ON s.`gid` = g.`gid` LEFT JOIN sys_xue xue ON s.`xid` = xue.`xid`
+
+
+SELECT sys_yuan.*,sys_gong.gname AS sname,sys_xue.`li` AS xname FROM sys_yuan LEFT JOIN sys_gong ON sys_yuan.`gid` = sys_gong.`gid` LEFT JOIN sys_xue  ON sys_yuan.`xid` = sys_xue.`xid`
+
+SELECT * sys_yuan WHERE yname LIKE '%张三%'
+
+SET FOREIGN_KEY_CHECKS = 1;

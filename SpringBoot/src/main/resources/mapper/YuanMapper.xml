@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hy.qql.demo.mapper.YuanMapper">
+  <select id="findPage" resultType="com.hy.qql.demo.entity.Yuan">
+      SELECT sys_yuan.*,sys_gong.gname AS sname,sys_xue.`li` AS xname FROM sys_yuan
+       LEFT JOIN sys_gong ON sys_yuan.`gid` = sys_gong.`gid`
+       LEFT JOIN sys_xue  ON sys_yuan.`xid` = sys_xue.`xid`
+      <where>
+          <if test="yname != null and yname != ''">
+              and yname like concat('%', #{yname},'%')
+          </if>
+      </where>
+  </select>
+
+    <select id="findAll" resultType="com.hy.qql.demo.entity.Xue">
+        select * from sys_xue
+    </select>
+
+    <select id="GoodFindAll" resultType="com.hy.qql.demo.entity.Gong">
+        select * from sys_gong
+    </select>
+</mapper>
