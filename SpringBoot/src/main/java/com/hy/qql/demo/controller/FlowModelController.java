@@ -88,6 +88,64 @@ public class FlowModelController {
         return Result.success();
     }
 
+    @RequestMapping("/createFlowModel")
+    public Result createFlowModel(@RequestBody FlowModel flowModel,@RequestBody Line[] lines,@RequestBody Node[] nodes){
+        flowModel.setCreateTime(new Date().getTime());
+        flowModel.setUpdateTime(new Date().getTime());
+        flowModel.setFlowModelId(null);
+        flowModel.setNodeNum(nodes.length);
+        flowModelMapper.insert(flowModel);
+        for(Line line:lines){
+            line.setFlowModelId(flowModel.getFlowModelId());
+            line.setLineId(null);
+            lineMapper.insert(line);
+        }
+        for(Node node:nodes){
+            node.setFlowModelId(flowModel.getFlowModelId());
+            node.setNodeId(null);
+            nodeMapper.insert(node);
+        }
+        return Result.success(flowModel);
+    }
 
+    @RequestMapping("/updateFlowModel")
+    public Result updateFlowModel(@RequestBody FlowModel flowModel,@RequestBody Line[] lines,@RequestBody Node[] nodes){
+        flowModel.setUpdateTime(new Date().getTime());
+        flowModel.setNodeNum(nodes.length);
+        flowModelMapper.updateById(flowModel);
+        QueryWrapper<Line> queryWrapper1 = new QueryWrapper<>();
+        queryWrapper1.eq("flow_model_id",flowModel.getFlowModelId());
+        lineMapper.delete(queryWrapper1);
+        QueryWrapper<Node> queryWrapper2 = new QueryWrapper<>();
+        queryWrapper2.eq("flow_model_id",flowModel.getFlowModelId());
+        nodeMapper.delete(queryWrapper2);
+
+        for(Line line:lines){
+            line.setFlowModelId(flowModel.getFlowModelId());
+            line.setLineId(null);
+            lineMapper.insert(line);
+        }
+        for(Node node:nodes){
+            node.setFlowModelId(flowModel.getFlowModelId());
+            node.setNodeId(null);
+            nodeMapper.insert(node);
+        }
+        return Result.success(flowModel);
+    }
+    @RequestMapping("/getFlowModel")
+    public Result getFlowModel(@RequestBody Integer flowModelId){
+        FlowModel flowModel = flowModelMapper.selectById(flowModelId);
+        QueryWrapper<Line> queryWrapper1 = new QueryWrapper<>();
+        queryWrapper1.eq("flow_model_id",flowModel.getFlowModelId());
+        List<Line> lineList = lineMapper.selectList(queryWrapper1);
+        QueryWrapper<Node> queryWrapper2 = new QueryWrapper<>();
+        queryWrapper2.eq("flow_model_id",flowModel.getFlowModelId());
+        List<Node> nodeList = nodeMapper.selectList(queryWrapper2);
+        FlowModelWhole flowModelWhole=new FlowModelWhole();
+        flowModelWhole.setFlowModel(flowModel);
+        flowModelWhole.setLines(lineList);
+        flowModelWhole.setNodes(nodeList);
+        return Result.success(flowModelWhole);
+    }
 
 }
